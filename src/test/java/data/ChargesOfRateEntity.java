@@ -1,4 +1,4 @@
-package assessment.data;
+package data;
 
 public class ChargesOfRate {
 

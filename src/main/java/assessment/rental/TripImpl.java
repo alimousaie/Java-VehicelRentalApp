@@ -1,12 +1,10 @@
 package assessment.rental;
 
-import assessment.rental.Path;
-import assessment.rental.RentRequest;
-import assessment.vehicles.Vehicle;
+import data.vehicles.Vehicle;
 
 import java.util.List;
 
-public class CarRentRequest implements RentRequest {
+public class CarRentRequest implements Trip {
     private Vehicle vehicle;
     private List<Path> trip;
     private boolean usedAc;

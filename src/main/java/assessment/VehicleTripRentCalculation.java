@@ -1,11 +1,14 @@
 package assessment;
 
-import assessment.rental.Path;
-import assessment.rental.InputParser;
 import assessment.data.DataPreparation;
-import assessment.vehicles.VehicleType;
-import assessment.rental.RentRequest;
-import assessment.vehicles.Vehicle;
+import assessment.data.gateways.ChargeOfRateGateway;
+import assessment.data.gateways.TripPathGateway;
+import assessment.data.gateways.VehicleGateway;
+import assessment.rental.InputParser;
+import assessment.rental.Path;
+import assessment.rental.Trip;
+import data.vehicles.Vehicle;
+import data.vehicles.VehicleType;
 
 import java.util.List;
 
@@ -20,6 +23,17 @@ import java.util.List;
  */
 public class VehicleRentCalculation implements RentCalculator {
 
+    private final ChargeOfRateGateway chargeOfRateGateway;
+    private final TripPathGateway tripPathGateway;
+    private final VehicleGateway vehicleGateway;
+
+    public VehicleRentCalculation(ChargeOfRateGateway chargeOfRateGateway,
+                                  TripPathGateway tripPathGateway, VehicleGateway vehicleGateway) {
+        this.chargeOfRateGateway = chargeOfRateGateway;
+        this.tripPathGateway = tripPathGateway;
+        this.vehicleGateway = vehicleGateway;
+    }
+
     /**
      * Calculate total expenses of a rent trip
      *
@@ -27,7 +41,7 @@ public class VehicleRentCalculation implements RentCalculator {
      * @return
      */
     public double calcTotalExpense(String carRentTrip) {
-        return calcTotalExpense(InputParser.parse(carRentTrip));
+        return calcTotalExpense(InputParser.parse(carRentTrip,chargeOfRateGateway,tripPathGateway,vehicleGateway));
     }
 
     /**
@@ -36,7 +50,7 @@ public class VehicleRentCalculation implements RentCalculator {
      * @param rentRequest the Interface includes some information about Vehicle, Trip, Passengers, AC usage
      * @return total expense
      */
-    public double calcTotalExpense(RentRequest rentRequest) {
+    public double calcTotalExpense(Trip rentRequest) {
         double totalExpense = 0;
 
         double distance = calcTripDistances(rentRequest.getTrip());
